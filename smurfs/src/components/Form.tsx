@@ -1,14 +1,38 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Smurf } from '../store/types';
+import { useVillageContext } from '../store/context';
+import { fetchSmurfs, successSmurfs, failSmurfs } from '../store/actions';
 
-interface FormProps {
-  addResident: (smurf: Smurf) => void;
-}
-
-const Form = ({ addResident }: FormProps): React.ReactElement => {
+const Form = (): React.ReactElement => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [height, setHeight] = useState('');
+  const dispatch = useVillageContext()[1];
+
+  const addResident = (smurf: Smurf): void => {
+    const post = async (): Promise<void> => {
+      try {
+        const responsePost = await axios.post(
+          'http://localhost:3333/smurfs',
+          smurf
+        );
+        console.log('responsePost', responsePost);
+        dispatch(fetchSmurfs());
+        try {
+          const response = await axios.get('http://localhost:3333/smurfs');
+          console.log('response', response);
+          dispatch(successSmurfs(response.data));
+        } catch (error) {
+          dispatch(failSmurfs());
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    console.log('adding resident', smurf);
+    post();
+  };
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
@@ -18,6 +42,9 @@ const Form = ({ addResident }: FormProps): React.ReactElement => {
       age: Number(age),
       id: Date.now(),
     });
+    setName('');
+    setAge('');
+    setHeight('');
   };
 
   const nameHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
