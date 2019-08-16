@@ -1,8 +1,9 @@
 export const FETCH_SMURFS_START = 'FETCH_SMURFS_START';
 export const FETCH_SMURFS_SUCCESS = 'FETCH_SMURFS_SUCCESS';
 export const FETCH_SMURFS_FAIL = 'FETCH_SMURFS_FAIL';
+export const ADD_SMURF = 'ADD_SMURF';
 
-export type FETCH_STATUS =
+export type FetchStatus =
   | typeof FETCH_SMURFS_START
   | typeof FETCH_SMURFS_SUCCESS
   | typeof FETCH_SMURFS_FAIL;
@@ -16,7 +17,7 @@ export interface Smurf {
 
 export interface VillageState {
   smurfs: Smurf[];
-  status: FETCH_STATUS;
+  status: FetchStatus;
 }
 
 export interface VillageAction {

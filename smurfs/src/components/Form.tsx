@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
+import { Smurf } from '../store/types';
 
-const Form = (): React.ReactElement => {
+interface FormProps {
+  addResident: (smurf: Smurf) => void;
+}
+
+const Form = ({ addResident }: FormProps): React.ReactElement => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [height, setHeight] = useState('');
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
+    addResident({
+      name,
+      height,
+      age: Number(age),
+      id: Date.now(),
+    });
   };
 
   const nameHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
