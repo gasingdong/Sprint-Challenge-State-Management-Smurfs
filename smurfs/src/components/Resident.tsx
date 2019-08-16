@@ -9,6 +9,9 @@ const Resident = ({ resident }: ResidentProps): React.ReactElement => {
   return (
     <div className="residents__resident">
       <h1>{resident.name}</h1>
+      <h2>
+        {resident.age} - {resident.height}
+      </h2>
     </div>
   );
 };
