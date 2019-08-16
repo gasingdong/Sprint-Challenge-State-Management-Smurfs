@@ -1,31 +1,29 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import Resident from './Resident';
-import { useVillageContext } from '../store/context';
-import { fetchSmurfs, successSmurfs, failSmurfs } from '../store/actions';
+import { Smurf } from '../store/types';
 
-const VillageResidents = (): React.ReactElement => {
-  const [state, dispatch] = useVillageContext();
-  const { smurfs } = state;
+interface VillageResidentsProps {
+  residents: Smurf[];
+  deleteResident: (id: number) => void;
+}
 
-  useEffect((): void => {
-    const fetch = async (): Promise<void> => {
-      dispatch(fetchSmurfs());
-      try {
-        const response = await axios.get('http://localhost:3333/smurfs');
-        dispatch(successSmurfs(response.data));
-      } catch (error) {
-        dispatch(failSmurfs());
-      }
-    };
-    fetch();
-  }, [dispatch]);
-
+const VillageResidents = ({
+  residents,
+  deleteResident,
+}: VillageResidentsProps): React.ReactElement => {
   return (
     <div className="residents">
-      {smurfs.map(
+      {residents.map(
         (smurf): React.ReactElement => (
-          <Resident key={smurf.id} resident={smurf} />
+          <React.Fragment key={smurf.id}>
+            <Resident resident={smurf} />
+            <button
+              type="button"
+              onClick={(): void => deleteResident(smurf.id)}
+            >
+              Expel Resident
+            </button>
+          </React.Fragment>
         )
       )}
     </div>

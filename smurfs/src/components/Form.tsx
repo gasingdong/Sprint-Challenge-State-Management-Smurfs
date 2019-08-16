@@ -1,33 +1,14 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Smurf } from '../store/types';
-import { useVillageContext } from '../store/context';
-import { fetchSmurfs, successSmurfs, failSmurfs } from '../store/actions';
 
-const Form = (): React.ReactElement => {
+interface FormProps {
+  addResident: (smurf: Smurf) => void;
+}
+
+const Form = ({ addResident }: FormProps): React.ReactElement => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [height, setHeight] = useState('');
-  const dispatch = useVillageContext()[1];
-
-  const addResident = (smurf: Smurf): void => {
-    const post = async (): Promise<void> => {
-      try {
-        await axios.post('http://localhost:3333/smurfs', smurf);
-        dispatch(fetchSmurfs());
-        try {
-          const response = await axios.get('http://localhost:3333/smurfs');
-          dispatch(successSmurfs(response.data));
-        } catch (error) {
-          dispatch(failSmurfs());
-        }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    };
-    post();
-  };
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
