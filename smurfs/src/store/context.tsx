@@ -1,9 +1,10 @@
 import React, { Dispatch, useReducer, createContext, useContext } from 'react';
-import { VillageState, VillageAction } from './types';
+import { VillageState, VillageAction, FETCH_SMURFS_SUCCESS } from './types';
 import reducer from './reducer';
 
 const initialState: VillageState = {
   smurfs: [],
+  status: FETCH_SMURFS_SUCCESS,
 };
 
 export const VillageContext: React.Context<
