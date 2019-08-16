@@ -21,5 +21,7 @@ export interface VillageState {
 
 export interface VillageAction {
   type: string;
-  payload?: {};
+  payload?: {
+    smurfs: Smurf[];
+  };
 }
