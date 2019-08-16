@@ -13,24 +13,19 @@ const Form = (): React.ReactElement => {
   const addResident = (smurf: Smurf): void => {
     const post = async (): Promise<void> => {
       try {
-        const responsePost = await axios.post(
-          'http://localhost:3333/smurfs',
-          smurf
-        );
-        console.log('responsePost', responsePost);
+        await axios.post('http://localhost:3333/smurfs', smurf);
         dispatch(fetchSmurfs());
         try {
           const response = await axios.get('http://localhost:3333/smurfs');
-          console.log('response', response);
           dispatch(successSmurfs(response.data));
         } catch (error) {
           dispatch(failSmurfs());
         }
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
       }
     };
-    console.log('adding resident', smurf);
     post();
   };
 

@@ -13,7 +13,6 @@ const VillageResidents = (): React.ReactElement => {
       dispatch(fetchSmurfs());
       try {
         const response = await axios.get('http://localhost:3333/smurfs');
-        console.log('response', response);
         dispatch(successSmurfs(response.data));
       } catch (error) {
         dispatch(failSmurfs());

@@ -14,23 +14,19 @@ const Resident = ({ resident }: ResidentProps): React.ReactElement => {
   const deleteResident = (): void => {
     const deleteSmurf = async (): Promise<void> => {
       try {
-        const responseDelete = await axios.delete(
-          `http://localhost:3333/smurfs/${resident.id}`
-        );
-        console.log('responseDelete', responseDelete);
+        await axios.delete(`http://localhost:3333/smurfs/${resident.id}`);
         dispatch(fetchSmurfs());
         try {
           const response = await axios.get('http://localhost:3333/smurfs');
-          console.log('response', response);
           dispatch(successSmurfs(response.data));
         } catch (error) {
           dispatch(failSmurfs());
         }
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
       }
     };
-    console.log('deleting resident', resident);
     deleteSmurf();
   };
 
